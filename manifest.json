@@ -1,0 +1,9 @@
+{
+  "name": "SAM4S 문서열기",
+  "short_name": "SAM4S",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#007CF0",
+  "description": "사내 문서 열람 전용 앱"
+}
