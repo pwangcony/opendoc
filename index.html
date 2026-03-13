@@ -139,9 +139,6 @@
                 <button id="btnOpen" class="w-full h-[52px] rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold text-[15px] flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-[0_0_20px_rgba(79,70,229,0.4)] hover:-translate-y-0.5 active:scale-[0.98]">
                     <span>문서 열기</span>
                 </button>
-                <button id="btnClose" class="w-full h-[52px] rounded-xl bg-zinc-800/40 border border-zinc-700/50 text-zinc-300 font-medium text-[15px] transition-all duration-200 hover:bg-zinc-800 hover:text-white active:scale-[0.98]">
-                    <span>닫기</span>
-                </button>
             </div>
         </div>
 
@@ -204,14 +201,9 @@
                     select.focus();
                 }
             });
-
-            btnClose.addEventListener('click', () => {
-                if (confirm('창을 닫으시겠습니까?')) {
-                    window.close();
-                }
-            });
         });
     </script>
 </body>
 </html>
+
 
