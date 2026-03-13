@@ -2,94 +2,94 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>SAM4S - 문서열기</title>
-
+    
+    <link rel="manifest" href="./manifest.json">
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
     
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['"Pretendard Variable"', 'Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'Helvetica Neue', 'Segoe UI', 'sans-serif'],
+                    fontFamily: { 
+                        sans: ['"Pretendard Variable"', 'Pretendard', 'sans-serif'] 
                     },
-                    colors: {
-                        zinc: {
-                            850: '#1f1f22',
-                            950: '#09090b',
-                        }
+                    colors: { 
+                        zinc: { 850: '#1f1f22', 950: '#09090b' } 
                     },
                     animation: {
                         'float': 'float 3s ease-in-out infinite',
-                        'shake': 'shake 0.4s cubic-bezier(.36,.07,.19,.97) both',
+                        'shake': 'shake 0.4s both',
                         'fade-in': 'fadeIn 0.5s ease-out forwards',
                         'shimmer': 'shimmer 2.5s linear infinite',
                     },
                     keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-5px)' },
+                        float: { 
+                            '0%, 100%': { transform: 'translateY(0)' }, 
+                            '50%': { transform: 'translateY(-5px)' } 
                         },
-                        shake: {
-                            '10%, 90%': { transform: 'translate3d(-1px, 0, 0)' },
-                            '20%, 80%': { transform: 'translate3d(2px, 0, 0)' },
-                            '30%, 50%, 70%': { transform: 'translate3d(-4px, 0, 0)' },
-                            '40%, 60%': { transform: 'translate3d(4px, 0, 0)' }
+                        shake: { 
+                            '10%, 90%': { transform: 'translate3d(-1px, 0, 0)' }, 
+                            '20%, 80%': { transform: 'translate3d(2px, 0, 0)' }, 
+                            '30%, 50%, 70%': { transform: 'translate3d(-4px, 0, 0)' }, 
+                            '40%, 60%': { transform: 'translate3d(4px, 0, 0)' } 
                         },
-                        fadeIn: {
-                            '0%': { opacity: '0', transform: 'translateY(10px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        fadeIn: { 
+                            '0%': { opacity: '0', transform: 'translateY(10px)' }, 
+                            '100%': { opacity: '1', transform: 'translateY(0)' } 
                         },
-                        shimmer: {
-                            '0%': { backgroundPosition: '200% 0' },
-                            '100%': { backgroundPosition: '-200% 0' }
+                        shimmer: { 
+                            '0%': { backgroundPosition: '200% 0' }, 
+                            '100%': { backgroundPosition: '-200% 0' } 
                         }
                     }
                 }
             }
         }
     </script>
+
     <style>
+        @charset "UTF-8";
+
         select {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            appearance: none !important;
+            text-align: left;
         }
-        /* 선택 후에만 중앙 정렬을 강제하기 위한 클래스 */
+
         .selected-center {
             text-align: center !important;
             text-align-last: center !important;
         }
-        /* 드롭다운 리스트(option)는 왼쪽 정렬 유지 */
+        
         option {
             background-color: #18181b;
             color: #e4e4e7;
             padding: 16px;
             text-align: left !important;
         }
+
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #52525b; }
     </style>
 </head>
-<body class="bg-zinc-950 flex items-center justify-center min-h-screen p-4 font-sans text-zinc-100 selection:bg-blue-500/30">
+<body class="bg-zinc-950 flex items-center justify-center min-h-screen p-4 font-sans text-zinc-100 selection:bg-blue-500/30 overflow-hidden">
 
-    <!-- 배경 효과 -->
     <div class="fixed inset-0 pointer-events-none z-0">
         <div class="absolute top-[-20%] left-[-10%] w-[70vw] h-[70vw] rounded-full bg-blue-600/10 blur-[120px]"></div>
         <div class="absolute bottom-[-20%] right-[-10%] w-[60vw] h-[60vw] rounded-full bg-indigo-600/10 blur-[100px]"></div>
     </div>
-
-    <!-- 메인 컨테이너 -->
-    <main class="w-full max-w-[420px] bg-zinc-900/60 backdrop-blur-2xl border border-zinc-800/50 rounded-[2rem] p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] relative z-10 animate-fade-in flex flex-col gap-8">
+    
+    <main class="w-full max-w-[420px] bg-zinc-900/60 backdrop-blur-2xl border border-zinc-800/50 rounded-[2rem] p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] relative z-10 animate-fade-in flex flex-col gap-8 text-center">
         
-        <header class="text-center flex flex-col items-center justify-center space-y-3">
+        <header class="flex flex-col items-center justify-center space-y-3">
             <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-[0_0_20px_rgba(79,70,229,0.3)] animate-float">
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -118,10 +118,10 @@
                     <option value="doc10">(SA기타-15-0001_S2) 신규거래선 진행현황</option>
                     <option value="doc11">(SA기타-16-0001_S2) ECR 모델코드</option>
                     <option value="doc12">(SA기타-23-0001_S2) 러시아 OL 거래선 바코드 모델코드</option>
-                    <option value="doc13">SAM4S 모델명채번 기준서</option>
-                    <option value="doc14">SAM4S 인증자료</option>
-                    <option value="doc15">SAM4S 바이어체크리스트</option>
-                    <option value="doc16">SAM4S 개발문서관리대장</option>
+                    <option value="doc13">모델명채번 기준서(로그인 필요)</option>
+                    <option value="doc14">인증자료(로그인 필요)</option>
+                    <option value="doc15">바이어체크리스트(로그인 필요)</option>
+                    <option value="doc16">개발문서관리대장(로그인 필요)</option>
                 </select>
 
                 <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-500 group-hover:text-zinc-300 transition-colors z-0">
@@ -131,84 +131,81 @@
                 </div>
 
                 <div id="placeholderText" class="absolute inset-y-0 left-5 flex items-center pointer-events-none transition-opacity duration-300 z-0">
-                    <span class="bg-gradient-to-l from-zinc-500 via-zinc-100 to-zinc-500 bg-[length:200%_auto] text-transparent bg-clip-text animate-shimmer text-[15px] font-medium">
+                    <span class="bg-gradient-to-r from-zinc-500 via-zinc-100 to-zinc-500 bg-[length:200%_auto] text-transparent bg-clip-text animate-shimmer text-[15px] font-medium">
                         열고 싶은 문서를 선택하세요
                     </span>
                 </div>
             </div>
-
-            <button id="btnOpen" class="w-full h-[52px] rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold text-[15px] flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-[0_0_20px_rgba(79,70,229,0.4)] hover:-translate-y-0.5 active:scale-[0.98]">
-                <span>문서 열기</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                    <polyline points="15 3 21 3 21 9"></polyline>
-                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                </svg>
-            </button>
-            <button id="btnClose" class="w-full h-[52px] rounded-xl bg-zinc-800/40 border border-zinc-700/50 text-zinc-300 font-medium text-[15px] transition-all duration-200 hover:bg-zinc-800 hover:text-white active:scale-[0.98]">
+            
+            <div class="flex flex-col gap-3">
+                <button id="btnOpen" class="w-full h-[52px] rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold text-[15px] flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-[0_0_20px_rgba(79,70,229,0.4)] hover:-translate-y-0.5 active:scale-[0.98]">
+                    <span>문서 열기</span>
+                </button>
+                <button id="btnClose" class="w-full h-[52px] rounded-xl bg-zinc-800/40 border border-zinc-700/50 text-zinc-300 font-medium text-[15px] transition-all duration-200 hover:bg-zinc-800 hover:text-white active:scale-[0.98]">
                     <span>닫기</span>
-            </button>
+                </button>
+            </div>
         </div>
 
         <div class="text-center pt-2">
-            <span class="text-zinc-600 text-[12px] font-medium tracking-wide">v2.1 DEV4 SJ</span>
+            <span class="text-zinc-600 text-[12px] font-medium tracking-wide">v2.1 DEV SJ</span>
         </div>
     </main>
 
     <script>
-        const linkMap = {
-            'doc1': 'aHR0cHM6Ly90aW55dXJsLmNvbS9iZGVrdTRubg==',
-            'doc2': 'aHR0cHM6Ly90aW55dXJsLmNvbS8zc25ma3o0ag==',
-            'doc3': 'aHR0cHM6Ly9zaG9ydHVybC5hdC9kS2JIQw==',
-            'doc4': 'aHR0cHM6Ly9zaG9ydHVybC5hdC9CRU1BWg==',
-            'doc5': 'aHR0cHM6Ly9zaG9ydHVybC5hdC9SRjVJRg==',
-            'doc6': 'aHR0cHM6Ly9zaG9ydHVybC5hdC91Ylo3YQ==',
-            'doc7': 'aHR0cHM6Ly9zaG9ydHVybC5hdC8zdThsNQ==',
-            'doc8': 'aHR0cHM6Ly90aW55dXJsLmNvbS80NDJ4M2VuZg==',
-            'doc9': 'aHR0cHM6Ly90aW55dXJsLmNvbS81bjdjaGhidg==',
-            'doc10': 'aHR0cHM6Ly90aW55dXJsLmNvbS80ODJrMm0yMg==',
-            'doc11': 'aHR0cHM6Ly90aW55dXJsLmNvbS8yNTU1enlkdQ==',
-            'doc12': 'aHR0cHM6Ly90aW55dXJsLmNvbS8zY2Nobjd2OQ==',
-            'doc13': 'aHR0cHM6Ly90aW55dXJsLmNvbS8zdGh1aDQ4eQ==',
-            'doc14': 'aHR0cHM6Ly90aW55dXJsLmNvbS8zODIzZndrZg==',
-            'doc15': 'aHR0cHM6Ly90aW55dXJsLmNvbS8yczR5eGR3Mg==',
-            'doc16': 'aHR0cHM6Ly90aW55dXJsLmNvbS93N3A5N3Uzag=='
+        const linkMap = { 
+            'doc1': 'aHR0cHM6Ly90aW55dXJsLmNvbS9iZGVrdTRubg==', 
+            'doc2': 'aHR0cHM6Ly90aW55dXJsLmNvbS8zc25ma3o0ag==', 
+            'doc3': 'aHR0cHM6Ly9zaG9ydHVybC5hdC9kS2JIQw==', 
+            'doc4': 'aHR0cHM6Ly9zaG9ydHVybC5hdC9CRU1BWg==', 
+            'doc5': 'aHR0cHM6Ly9zaG9ydHVybC5hdC9SRjVJRg==', 
+            'doc6': 'aHR0cHM6Ly9zaG9ydHVybC5hdC91Ylo3YQ==', 
+            'doc7': 'aHR0cHM6Ly9zaG9ydHVybC5hdC8zdThsNQ==', 
+            'doc8': 'aHR0cHM6Ly90aW55dXJsLmNvbS80NDJ4M2VuZg==', 
+            'doc9': 'aHR0cHM6Ly90aW55dXJsLmNvbS81bjdjaGhidg==', 
+            'doc10': 'aHR0cHM6Ly90aW55dXJsLmNvbS80ODJrMm0yMg==', 
+            'doc11': 'aHR0cHM6Ly90aW55dXJsLmNvbS8yNTU1enlkdQ==', 
+            'doc12': 'aHR0cHM6Ly90aW55dXJsLmNvbS8zY2Nobjd2OQ==', 
+            'doc13': 'aHR0cHM6Ly90aW55dXJsLmNvbS8zdGh1aDQ4eQ==', 
+            'doc14': 'aHR0cHM6Ly90aW55dXJsLmNvbS8zODIzZndrZg==', 
+            'doc15': 'aHR0cHM6Ly90aW55dXJsLmNvbS8yczR5eGR3Mg==', 
+            'doc16': 'aHR0cHM6Ly90aW55dXJsLmNvbS93N3A5N3Uzag==' 
         };
 
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('keydown', e => {
-            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || (e.ctrlKey && e.key === 'U')) {
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) || 
+                (e.ctrlKey && (e.key === 'U' || e.key === 'u'))) {
                 e.preventDefault();
                 return false;
             }
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-            const selectElement = document.getElementById('linkSelect');
+            const select = document.getElementById('linkSelect');
             const placeholder = document.getElementById('placeholderText');
             const btnOpen = document.getElementById('btnOpen');
+            const btnClose = document.getElementById('btnClose');
 
-            if (selectElement) {
-                selectElement.addEventListener('change', (e) => {
-                    if(e.target.value !== "") {
-                        if (placeholder) placeholder.style.opacity = '0';
-                        selectElement.classList.add('selected-center');
-                    }
-                });
-            }
+            select.addEventListener('change', (e) => {
+                if(e.target.value !== "") {
+                    placeholder.style.opacity = '0';
+                    select.classList.add('selected-center');
+                    select.classList.remove('border-red-500', 'ring-red-500/50');
+                }
+            });
 
-            if (btnOpen) {
-                btnOpen.addEventListener('click', () => {
-                    const selectedKey = selectElement.value;
-                    if (selectedKey && linkMap[selectedKey]) {
-                        window.open(atob(linkMap[selectedKey]), '_blank');
-                    } else {
-                        selectElement.classList.add('animate-shake', 'border-red-500', 'ring-2', 'ring-red-500/50');
-                        setTimeout(() => selectElement.classList.remove('animate-shake'), 400);
-                        selectElement.focus();
-                    }
-                });
-            }
+            btnOpen.addEventListener('click', () => {
+                const key = select.value;
+                if (key && linkMap[key]) {
+                    window.open(atob(linkMap[key]), '_blank');
+                } else {
+                    select.classList.add('animate-shake', 'border-red-500', 'ring-2', 'ring-red-500/50');
+                    setTimeout(() => select.classList.remove('animate-shake'), 400);
+                    select.focus();
+                }
+            });
 
             btnClose.addEventListener('click', () => {
                 if (confirm('창을 닫으시겠습니까?')) {
@@ -218,6 +215,4 @@
         });
     </script>
 </body>
-
 </html>
-
