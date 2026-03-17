@@ -76,6 +76,14 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #52525b; }
+
+        #weatherWidget {
+            touch-action: none;
+            user-select: none;
+        }
+        .drag-handle {
+            cursor: move;
+        }
     </style>
 </head>
 <body class="bg-zinc-950 flex items-center justify-center min-h-screen p-4 font-sans text-zinc-100 selection:bg-blue-500/30 overflow-hidden">
@@ -143,9 +151,40 @@
         </div>
 
         <div class="text-center pt-2">
-            <span class="text-zinc-600 text-[12px] font-medium tracking-wide">v2.1 DEV SJ</span>
+            <span class="text-zinc-600 text-[12px] font-medium tracking-wide">v2.2 DEV SJ</span>
         </div>
     </main>
+
+    <div id="weatherWidget" class="fixed top-10 right-10 w-64 bg-zinc-900/80 backdrop-blur-xl border border-zinc-700/50 rounded-2xl shadow-2xl z-50 animate-fade-in transition-shadow hover:shadow-blue-500/10">
+
+        <div class="drag-handle w-full h-8 flex items-center justify-center group">
+            <div class="w-10 h-1 bg-zinc-700 rounded-full group-hover:bg-zinc-500 transition-colors"></div>
+        </div>
+        
+        <div class="px-6 pb-6 space-y-4">
+
+            <div class="text-center">
+                <div id="widgetTime" class="text-3xl font-bold tracking-tighter text-white">00:00:00</div>
+                <div id="widgetDate" class="text-[11px] text-zinc-500 font-medium uppercase tracking-widest mt-1">LOADING DATE...</div>
+            </div>
+
+            <div class="h-px bg-zinc-800/50 w-full"></div>
+
+            <div class="flex items-center justify-between">
+                <div class="flex flex-col">
+                    <span id="widgetLocation" class="text-[13px] font-semibold text-zinc-300">위치 확인 중...</span>
+                    <span id="widgetWeatherDesc" class="text-[11px] text-zinc-500 capitalize">정보를 불러오는 중</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span id="widgetTemp" class="text-xl font-bold text-white">--°</span>
+                    <div id="weatherIcon" class="text-blue-400">
+                    
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 19.07-1.41-1.41"/><path d="M12 20v2"/><path d="m6.34 17.66-1.41 1.41"/><path d="M2 12h2"/><path d="m7.76 7.76-1.41-1.41"/><circle cx="12" cy="12" r="4"/></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         const linkMap = { 
@@ -167,6 +206,7 @@
             'doc16': 'aHR0cHM6Ly90aW55dXJsLmNvbS93N3A5N3Uzag==' 
         };
 
+        // 보안 설정
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('keydown', e => {
             if (e.key === 'F12' || 
@@ -181,7 +221,6 @@
             const select = document.getElementById('linkSelect');
             const placeholder = document.getElementById('placeholderText');
             const btnOpen = document.getElementById('btnOpen');
-            const btnClose = document.getElementById('btnClose');
 
             select.addEventListener('change', (e) => {
                 if(e.target.value !== "") {
@@ -201,9 +240,104 @@
                     select.focus();
                 }
             });
+            
+            function updateClock() {
+                const now = new Date();
+                const h = String(now.getHours()).padStart(2, '0');
+                const m = String(now.getMinutes()).padStart(2, '0');
+                const s = String(now.getSeconds()).padStart(2, '0');
+                
+                document.getElementById('widgetTime').textContent = `${h}:${m}:${s}`;
+                
+                const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' };
+                document.getElementById('widgetDate').textContent = now.toLocaleDateString('ko-KR', options);
+            }
+            setInterval(updateClock, 1000);
+            updateClock();
+
+            async function fetchWeatherData() {
+                try {
+                    const geoRes = await fetch('https://ipapi.co/json/');
+                    const geoData = await geoRes.json();
+                    const city = geoData.city || 'Seoul';
+                    const country = geoData.country_name || 'South Korea';
+                    
+                    document.getElementById('widgetLocation').textContent = `${city}, ${geoData.country_code}`;
+
+                    const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${geoData.latitude}&longitude=${geoData.longitude}&current_weather=true`);
+                    const weatherData = await weatherRes.json();
+                    
+                    const temp = Math.round(weatherData.current_weather.temperature);
+                    const code = weatherData.current_weather.weathercode;
+
+                    document.getElementById('widgetTemp').textContent = `${temp}°`;
+                    
+                    const weatherStatus = {
+                        0: "맑음", 1: "주로 맑음", 2: "부분적 흐림", 3: "흐림",
+                        45: "안개", 48: "안개", 51: "가랑비", 61: "비", 
+                        71: "눈", 95: "뇌우"
+                    };
+                    document.getElementById('widgetWeatherDesc').textContent = weatherStatus[code] || "정보 없음";
+                    
+                } catch (error) {
+                    console.error('날씨 정보를 불러오는데 실패했습니다.', error);
+                    document.getElementById('widgetLocation').textContent = "위치 확인 불가";
+                }
+            }
+            fetchWeatherData();
+            const widget = document.getElementById('weatherWidget');
+            const handle = widget.querySelector('.drag-handle');
+            let isDragging = false;
+            let offset = { x: 0, y: 0 };
+
+            handle.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                offset.x = e.clientX - widget.getBoundingClientRect().left;
+                offset.y = e.clientY - widget.getBoundingClientRect().top;
+                widget.classList.add('shadow-blue-500/20');
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                
+                let x = e.clientX - offset.x;
+                let y = e.clientY - offset.y;
+
+                const maxX = window.innerWidth - widget.offsetWidth - 10;
+                const maxY = window.innerHeight - widget.offsetHeight - 10;
+                
+                x = Math.max(10, Math.min(x, maxX));
+                y = Math.max(10, Math.min(y, maxY));
+
+                widget.style.left = `${x}px`;
+                widget.style.top = `${y}px`;
+                widget.style.right = 'auto';
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+                widget.classList.remove('shadow-blue-500/20');
+            });
+
+            handle.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                const touch = e.touches[0];
+                offset.x = touch.clientX - widget.getBoundingClientRect().left;
+                offset.y = touch.clientY - widget.getBoundingClientRect().top;
+            });
+
+            document.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                const touch = e.touches[0];
+                let x = touch.clientX - offset.x;
+                let y = touch.clientY - offset.y;
+                widget.style.left = `${x}px`;
+                widget.style.top = `${y}px`;
+                widget.style.right = 'auto';
+            });
+
+            document.addEventListener('touchend', () => isDragging = false);
         });
     </script>
 </body>
 </html>
-
-
