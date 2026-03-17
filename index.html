@@ -259,7 +259,7 @@
                 try {
                     const geoRes = await fetch('https://ipapi.co/json/');
                     const geoData = await geoRes.json();
-                    const city = geoData.city || 'Seoul';
+                    const city = geoData.region || 'Seoul';
                     const country = geoData.country_name || 'South Korea';
                     
                     document.getElementById('widgetLocation').textContent = `${city}, ${geoData.country_code}`;
